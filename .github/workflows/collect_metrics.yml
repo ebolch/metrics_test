@@ -6,7 +6,7 @@ permissions:
 on:
   schedule:
     # Run weekly on Mondays at 02:00 UTC
-    - cron: '55 19 * * 4'
+    - cron: '05 20 * * 4'
   workflow_dispatch:  # also allow manual runs
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
       - name: Create and/or switch to lp_metrics branch
         run: |
           git fetch origin lp_metrics:lp_metrics || true
-          if git show-ref --verify --quiet refs/head/lp_metrics; then
+          if git show-ref --verify --quiet refs/heads/lp_metrics; then
             git checkout lp_metrics
           else
             git checkout -b lp_metrics

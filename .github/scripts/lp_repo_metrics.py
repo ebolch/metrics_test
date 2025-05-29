@@ -96,6 +96,7 @@ def main():
     # Track existing (date,repo) to avoid duplicates
     existing = set()
     if TRAFFIC_FILE.exists():
+        print("Updating Existing Traffic File...")
         with open(TRAFFIC_FILE, newline='', encoding='utf-8') as f:
             reader = csv.reader(f)
             header = next(reader)
@@ -108,13 +109,14 @@ def main():
     ref_rows = []
     content_rows = []
     run_date = datetime.now().strftime('%Y-%m-%d')
-
+    print(run_date)
     for owner, repo in repo_list:
         views, clones, referrers, paths = fetch_repo_traffic(owner, repo, token)
         repo_id = f"{owner}/{repo}"
         # Map clones by date
         clone_map = {c['timestamp'][:10]: c for c in clones}
         # Daily metrics
+        print("Retrieving Views...")
         for v in views:
             day = v['timestamp'][:10]
             if (day, repo_id) in existing:
@@ -124,12 +126,15 @@ def main():
             cc, cu = cdata.get('count', 0), cdata.get('uniques', 0)
             metrics_rows.append([day, repo_id, vc, vu, cc, cu])
         # Aggregate referrers and content at run date
+        print("Retrieving Referrers...")
         for ref in referrers:
             ref_rows.append([run_date, repo_id, ref.get('referrer', ''), ref.get('count', 0)])
+        print("Retrieving Popular...")
         for p in paths:
             content_rows.append([run_date, repo_id, p.get('path', ''), p.get('count', 0), p.get('uniques', 0)])
 
     # Write CSVs
+    print("Writing .csv files...")
     append_to_csv(
         TRAFFIC_FILE,
         ['date', 'repository', 'views', 'uniques', 'clones', 'unique_clones'],

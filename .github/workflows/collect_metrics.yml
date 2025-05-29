@@ -3,7 +3,7 @@ name: Collect LP GitHub Traffic Metrics
 on:
   schedule:
     # Run weekly on Mondays at 02:00 UTC
-    - cron: '45 5 * * 4'
+    - cron: '50 17 * * 4'
   workflow_dispatch:  # also allow manual runs
 
 jobs:

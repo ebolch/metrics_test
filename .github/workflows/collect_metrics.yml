@@ -23,7 +23,19 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: true   # allows pushing commits
+      
+      - name: Create or switch to lp_metrics branch
+        run: |
+          # Try to fetch remote branch
+          git fetch origin lp_metrics:lp_metrics || true
+
+          if git show-ref --verify --quiet refs/head/lp_metrics; then
+            git checkout lp_metrics
+          else
+            git checkout -b lp_metrics
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v4

@@ -1,5 +1,8 @@
 name: Collect LP GitHub Traffic Metrics
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # Run weekly on Mondays at 02:00 UTC

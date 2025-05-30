@@ -131,7 +131,7 @@ def main():
     # Write CSVs
     append_to_csv(
         TRAFFIC_FILE,
-        ['date', 'repository', 'views', 'uniques', 'clones', 'unique_clones'],
+        ['date', 'repository', 'views', 'unique views', 'clones', 'unique clones'],
         metrics_rows
     )
     append_to_csv(
